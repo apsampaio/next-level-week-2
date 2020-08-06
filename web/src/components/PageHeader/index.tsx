@@ -9,6 +9,7 @@ import "./styles.css";
 
 interface PageHeaderProps {
   title: String;
+  description?: string;
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title, children }) => {
