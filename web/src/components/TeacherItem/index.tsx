@@ -2,30 +2,52 @@ import React from "react";
 
 import "./styles.css";
 import whatsappIcon from "../../assets/images/icons/whatsapp.svg";
+import api from "../../services/api";
 
-const TeacherItem = () => {
+export interface Teacher {
+  avatar: string;
+  bio: string;
+  cost: number;
+  id: number;
+  name: string;
+  subject: string;
+  whatsapp: string;
+}
+
+interface TeacherItemsProps {
+  teacher: Teacher;
+}
+
+const TeacherItem: React.FC<TeacherItemsProps> = ({ teacher }) => {
+  const handleSaveConnection = () => {
+    api.post("connections", {
+      user_id: teacher.id,
+    });
+  };
+
   return (
     <article className="teacher-item">
       <header>
-        <img
-          src="https://avatars0.githubusercontent.com/u/51516616?s=460&u=9dceff67107fcc14afd0339af87e1fadeac4dfea&v=4"
-          alt="profile"
-        />
+        <img src={teacher.avatar} alt="profile" />
         <div>
-          <strong>André Sampaio</strong>
-          <span>Matemática</span>
+          <strong>{teacher.name}</strong>
+          <span>{teacher.subject}</span>
         </div>
       </header>
-      <p>Ensinando a matemática básica para o básico.</p>
+      <p>{teacher.bio}</p>
       <footer>
         <p>
           Preço/hora
-          <strong>R$ 100,00</strong>
+          <strong>R$ {teacher.cost},00</strong>
         </p>
-        <button type="button">
+        <a
+          target="_blank"
+          onClick={handleSaveConnection}
+          href={`https://wa.me/<número>${teacher.whatsapp}`}
+        >
           Entrar em contato
           <img src={whatsappIcon} alt="Whatsapp" />
-        </button>
+        </a>
       </footer>
     </article>
   );
